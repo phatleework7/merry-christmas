@@ -37,7 +37,7 @@
         bgMusic.loop = true; bgMusic.volume = 1.0;
 
         const loader = new THREE.TextureLoader();
-        const photoFiles = ['./image1.jpg', './image2.jpg', './image3.jpg', './image4.jpg', './image5.jpg'];
+        const photoFiles = ['./image1.jpeg', './image2.jpeg', './image3.jpeg', './image4.jpeg', './image5.jpeg'];
         const photoTextures = [];
         photoFiles.forEach((f, i) => photoTextures[i] = loader.load(f));
 
@@ -46,7 +46,7 @@
             canvas.width = 128; canvas.height = 128;
             const ctx = canvas.getContext('2d');
             const cx = 64, cy = 64;
-            if (type === 'gold_glow') {
+            if (type === 'gold_glow') { 
                 const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 40);
                 grd.addColorStop(0, '#FFFFFF'); grd.addColorStop(0.2, '#FFFFE0'); grd.addColorStop(0.5, '#FFD700'); grd.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = grd; ctx.fillRect(0,0,128,128);
@@ -240,12 +240,15 @@
             init3D();
             const video = document.querySelector('.input_video');
             const canvas = document.getElementById('camera-preview');
+            canvas.width = 120;
+            canvas.height = 90;
             const ctx = canvas.getContext('2d');
             const hands = new Hands({locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
             hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.6, minTrackingConfidence: 0.6 });
 
             hands.onResults(results => {
-                ctx.clearRect(0,0,120,90); ctx.drawImage(results.image, 0, 0, 120, 90);
+                ctx.clearRect(0,0,canvas.width,canvas.height); 
+                ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
                 if(results.multiHandLandmarks.length > 0) {
                     lastHandDetectedTime = Date.now();
                     const lm = results.multiHandLandmarks[0];
